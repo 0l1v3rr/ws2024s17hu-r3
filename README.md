@@ -37,7 +37,7 @@ docker-compose up -d
 - Laravel
 - Source: `www/backend-laravel`
 - Deploy: `www/backend-laravel`
-- Base URL: http://backend.ub2023.hu/api/V1
+- Base URL: http://backend.ub2023.hu/api/v1
 
 ### Module C - Admin:
 
