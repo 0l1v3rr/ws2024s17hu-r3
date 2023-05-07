@@ -1,0 +1,11 @@
+/* CSS RESET */
+@import url("./styles/base.css");
+
+/* SECTIONS */
+@import url("./styles/header.css");
+@import url("./styles/about.css");
+@import url("./styles/gallery.css");
+@import url("./styles/information.css");
+@import url("./styles/sponsors.css");
+@import url("./styles/registration.css");
+@import url("./styles/footer.css");

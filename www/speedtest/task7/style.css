@@ -1,0 +1,41 @@
+.wrapper {
+  display: flex;
+  gap: 2;
+  counter-reset: sum;
+}
+
+input {
+  appearance: none;
+  border: 1px solid black;
+  width: 4rem;
+  aspect-ratio: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+input:checked {
+  background-color: gold;
+}
+
+input::before {
+  content: attr(data-value);
+}
+
+input[data-value="10"]:checked {
+  counter-increment: sum 10;
+}
+input[data-value="32"]:checked {
+  counter-increment: sum 32;
+}
+input[data-value="64"]:checked {
+  counter-increment: sum 64;
+}
+input[data-value="-15"]:checked {
+  counter-increment: sum -15;
+}
+
+#sum::after {
+  content: " " counter(sum);
+}

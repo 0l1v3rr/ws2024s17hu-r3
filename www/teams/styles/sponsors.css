@@ -1,0 +1,40 @@
+#sponsors {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: var(--white-sponsors);
+}
+
+#sponsors h3 {
+  font-size: 2.5rem;
+  color: var(--black-primary);
+}
+
+.sponsor-images {
+  display: flex;
+  gap: 5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.sponsor-images > img {
+  height: 2.5rem;
+  filter: grayscale(100%);
+  cursor: pointer;
+  transition: 0.15s ease-in-out;
+}
+.sponsor-images > img:hover {
+  filter: grayscale(0);
+}
+
+@media screen and (max-width: 768px) {
+  #sponsors h3 {
+    font-size: 2rem;
+  }
+}
