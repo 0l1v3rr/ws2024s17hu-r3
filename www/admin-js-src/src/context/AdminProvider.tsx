@@ -1,4 +1,10 @@
-import { ReactNode, createContext, useState, useEffect, useCallback } from "react";
+import {
+  ReactNode,
+  createContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { Team } from "../types";
 import axios from "axios";
@@ -27,7 +33,9 @@ export interface AdminContextType {
   clearSnackbar: () => void;
 }
 
-export const AdminContext = createContext<AdminContextType>({} as AdminContextType);
+export const AdminContext = createContext<AdminContextType>(
+  {} as AdminContextType
+);
 
 export const AdminProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useLocalStorage<string | null>("token", null);
@@ -42,32 +50,35 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (token === null) return;
 
-    axios.get<Team[]>("teams", { headers: { Authorization: `Bearer ${token}` } }).then((res) => {
-      const { data } = res;
+    axios
+      .get<Team[]>("teams", { headers: { Authorization: `Bearer ${token}` } })
+      .then((res) => {
+        const { data } = res;
 
-      setTeams(
-        data.sort((a, z) => {
-          return (
-            new Date(a.plannedStartingTime).getTime() - new Date(z.plannedStartingTime).getTime()
-          );
-        })
-      );
-
-      // If the result set doesn't contain the necessary amount of teams we need in order to calculate the following fields,
-      // the defaults are used. (which have been set as the default value of the state)
-      if (data.length > 0) {
-        setPlannedStartingTime(new Date(res.data[0].plannedStartingTime));
-      }
-
-      if (data.length > 1) {
-        setIntervalValue(
-          calculateMinuteDifference(
-            new Date(res.data[0].plannedStartingTime),
-            new Date(res.data[1].plannedStartingTime)
-          )
+        setTeams(
+          data.sort((a, z) => {
+            return (
+              new Date(a.plannedStartingTime).getTime() -
+              new Date(z.plannedStartingTime).getTime()
+            );
+          })
         );
-      }
-    });
+
+        // If the result set doesn't contain the necessary amount of teams we need in order to calculate the following fields,
+        // the defaults are used. (which have been set as the default value of the state)
+        if (data.length > 0) {
+          setPlannedStartingTime(new Date(res.data[0].plannedStartingTime));
+        }
+
+        if (data.length > 1) {
+          setIntervalValue(
+            calculateMinuteDifference(
+              new Date(res.data[0].plannedStartingTime),
+              new Date(res.data[1].plannedStartingTime)
+            )
+          );
+        }
+      });
   }, [token]);
 
   const updateTeam = useCallback((newTeam: Team) => {
@@ -97,7 +108,9 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
 
   const deleteTeam = useCallback(
     async (teamId: number): Promise<void> => {
-      await axios.delete(`teams/${teamId}`, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.delete(`teams/${teamId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setTeams((prev) => prev.filter((x) => x.id !== teamId));
       setSnackbarText("The team has been deleted!");
     },
@@ -153,7 +166,8 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
   const reorderByAveragePace = useCallback(() => {
     setTeams((prev) =>
       (structuredClone(prev) as Team[]).sort(
-        (a, z) => convertTimeToSec(z.averagePace) - convertTimeToSec(a.averagePace)
+        (a, z) =>
+          convertTimeToSec(z.averagePace) - convertTimeToSec(a.averagePace)
       )
     );
 
@@ -176,8 +190,11 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
   const createTeam = useCallback(
     async (name: string, contactEmail: string): Promise<void> => {
       const lastTeam = teams.at(-1);
-      const startingTime = !lastTeam ? plannedStartingTime : new Date(lastTeam.plannedStartingTime);
-      if (lastTeam) startingTime.setMinutes(startingTime.getMinutes() + interval);
+      const startingTime = !lastTeam
+        ? plannedStartingTime
+        : new Date(lastTeam.plannedStartingTime);
+      if (lastTeam)
+        startingTime.setMinutes(startingTime.getMinutes() + interval);
 
       const res = await axios.post<Team>(
         "teams",
@@ -195,7 +212,10 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
     [interval, plannedStartingTime, teams, token]
   );
 
-  const getTeamIndex = useCallback((id: number) => teams.findIndex((x) => x.id === id), [teams]);
+  const getTeamIndex = useCallback(
+    (id: number) => teams.findIndex((x) => x.id === id),
+    [teams]
+  );
 
   const firstTeam = (id: number) => getTeamIndex(id) === 0;
   const lastTeam = (id: number) => getTeamIndex(id) === teams.length - 1;

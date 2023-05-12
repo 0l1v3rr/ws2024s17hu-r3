@@ -1,3 +1,10 @@
+export const dateWithTimezoneDiff = (isoString: string) => {
+  const newDate = new Date(isoString);
+  newDate.setMinutes(newDate.getMinutes() - newDate.getTimezoneOffset());
+
+  return newDate;
+};
+
 export const timeFromSeconds = (seconds: number) => {
   const totalMin = Math.floor(seconds / 60);
 
@@ -5,12 +12,15 @@ export const timeFromSeconds = (seconds: number) => {
   const hours = Math.floor(totalMin / 60);
   const minutes = totalMin % 60;
 
-  return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${secs
+  return `${hours.toString().padStart(2, "0")}:${minutes
     .toString()
-    .padStart(2, "0")}`;
+    .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
 };
 
-export const hasRaceStarted = (currentDate: Date, plannedStartingTime: Date) => {
+export const hasRaceStarted = (
+  currentDate: Date,
+  plannedStartingTime: Date
+) => {
   return plannedStartingTime.getTime() < currentDate.getTime();
 };
 
@@ -20,12 +30,14 @@ export const dayDifference = (startDate: Date, finishDate: Date) => {
 };
 
 export const subtractDates = (startDate: Date, finishDate: Date) => {
-  return new Date(finishDate.valueOf() - startDate.valueOf());
+  return new Date(finishDate.getTime() - startDate.getTime() - 1000 * 60 * 60);
 };
 
 export const formatTime = (date: Date, showSeconds: boolean = false) => {
   return `${date.getHours().toString().padStart(2, "0")}:${date
     .getMinutes()
     .toString()
-    .padStart(2, "0")}${showSeconds ? `:${date.getSeconds().toString().padStart(2, "0")}` : ""}`;
+    .padStart(2, "0")}${
+    showSeconds ? `:${date.getSeconds().toString().padStart(2, "0")}` : ""
+  }`;
 };

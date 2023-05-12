@@ -1,5 +1,5 @@
 import { NextRun } from "../types";
-import { formatTime, subtractDates } from "../utils";
+import { dateWithTimezoneDiff, formatTime, subtractDates } from "../utils";
 
 type Props = {
   nextRun: NextRun | null;
@@ -27,8 +27,14 @@ const NextRunDetails = ({ nextRun, status, dayDiff, date }: Props) => {
         ) : (
           <>
             {dayDiff < 1 ? "" : `${dayDiff} days & `}{" "}
-            {formatTime(subtractDates(date, new Date(nextRun.plannedStartTime)), true)} UNTIL
-            HANDOVER
+            {formatTime(
+              subtractDates(
+                date,
+                dateWithTimezoneDiff(nextRun.plannedStartTime)
+              ),
+              true
+            )}{" "}
+            UNTIL HANDOVER
           </>
         )}
       </span>

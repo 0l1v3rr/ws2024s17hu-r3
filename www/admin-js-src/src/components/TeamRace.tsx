@@ -1,6 +1,7 @@
 import { Box, Typography, Button, TextField } from "@mui/material";
 import { useAdminContext } from "../hooks/useAdminContext";
 import { useNavigate } from "react-router-dom";
+import { withTimezoneOffset } from "../utils";
 
 const TeamRace = () => {
   const navigate = useNavigate();
@@ -14,8 +15,21 @@ const TeamRace = () => {
   } = useAdminContext();
 
   return (
-    <Box sx={{ width: "100%", gap: "1rem", display: "flex", flexDirection: "column" }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    <Box
+      sx={{
+        width: "100%",
+        gap: "1rem",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <Typography variant="h5">Team Race</Typography>
         <Button
           variant="contained"
@@ -48,7 +62,8 @@ const TeamRace = () => {
           sx={{ width: "100%" }}
           size="small"
           type="datetime-local"
-          value={plannedStartingTime.toISOString().substring(0, 16)}
+          // value={plannedStartingTime.toISOString().substring(0, 16)}
+          value={withTimezoneOffset(plannedStartingTime)}
           onChange={(e) => setPlannedStartingTime(new Date(e.target.value))}
         />
 

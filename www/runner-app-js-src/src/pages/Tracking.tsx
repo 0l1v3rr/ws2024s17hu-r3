@@ -3,7 +3,6 @@ import Welcome from "../components/Welcome";
 import { useCurrentRunner } from "../hooks/useCurrentRunner";
 import CurrentRunnerBox from "../components/CurrentRunnerBox";
 import { useCurrentDate } from "../hooks/useCurrentDate";
-import { useState } from "react";
 import { dayDifference, hasRaceStarted } from "../utils";
 import Loading from "./Loading";
 import { useNextRun } from "../hooks/useNextRun";
@@ -24,15 +23,12 @@ const Tracking = ({ runner, accessCode, plannedStartingTime }: Props) => {
   const [nextRun, pollNextRun] = useNextRun(accessCode, runner.id);
 
   const daysToGo = dayDifference(date, plannedStartingTime);
-  const [raceStarted, setRaceStarted] = useState<boolean>(
-    hasRaceStarted(plannedStartingTime, date)
-  );
+  const raceStarted = hasRaceStarted(plannedStartingTime, date);
 
   if (currentRunner === undefined || nextRun === undefined) return <Loading />;
 
   const handoverStart = async () => {
     if (!currentRunner) return;
-    setRaceStarted(true);
 
     await axios.post(
       "handover/start",
@@ -56,7 +52,10 @@ const Tracking = ({ runner, accessCode, plannedStartingTime }: Props) => {
   return (
     <>
       <Welcome name={runner.firstName} subtitle="Have a good running!" />
-      <CurrentRunnerBox currentRunner={currentRunner} raceStarted={raceStarted} />
+      <CurrentRunnerBox
+        currentRunner={currentRunner}
+        raceStarted={raceStarted}
+      />
 
       <NextRunDetails
         nextRun={nextRun}

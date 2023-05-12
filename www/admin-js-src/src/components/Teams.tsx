@@ -1,5 +1,9 @@
 import { Box, Typography, IconButton, Button } from "@mui/material";
-import { DataGrid, GridColDef, GridCellEditStopReasons } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridColDef,
+  GridCellEditStopReasons,
+} from "@mui/x-data-grid";
 import { useAdminContext } from "../hooks/useAdminContext";
 import { Team } from "../types";
 import { useState } from "react";
@@ -84,6 +88,8 @@ const Teams = () => {
       minWidth: 200,
       flex: 1.3,
       sortable: false,
+      renderCell: ({ row }) =>
+        new Date(row.plannedStartingTime).toLocaleString(),
     },
     {
       field: "actions",
@@ -98,7 +104,11 @@ const Teams = () => {
           <IconButton size="small" onClick={() => saveTeam(params.row as Team)}>
             <i className="far fa-save text-sm" />
           </IconButton>
-          <IconButton size="small" color="error" onClick={() => setDeleteId(params.row.id)}>
+          <IconButton
+            size="small"
+            color="error"
+            onClick={() => setDeleteId(params.row.id)}
+          >
             <i className="far fa-trash-alt text-sm" />
           </IconButton>
         </Box>
@@ -107,8 +117,21 @@ const Teams = () => {
   ];
 
   return (
-    <Box sx={{ width: "100%", gap: "1rem", display: "flex", flexDirection: "column" }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    <Box
+      sx={{
+        width: "100%",
+        gap: "1rem",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <Typography variant="h5">Teams</Typography>
       </Box>
 
@@ -129,7 +152,11 @@ const Teams = () => {
         />
       </Box>
 
-      <AreYouSure isOpen={deleteId !== null} close={() => setDeleteId(null)} deleteId={deleteId} />
+      <AreYouSure
+        isOpen={deleteId !== null}
+        close={() => setDeleteId(null)}
+        deleteId={deleteId}
+      />
 
       <Box sx={{ gap: "1rem", display: "flex" }}>
         <Button

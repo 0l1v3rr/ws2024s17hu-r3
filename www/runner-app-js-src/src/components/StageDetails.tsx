@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { Runner } from "../types";
-import { formatTime } from "../utils";
+import { dateWithTimezoneDiff, formatTime } from "../utils";
 
 type Props = {
   title: string;
@@ -10,7 +10,13 @@ type Props = {
   runnerAlign: "left" | "right";
 };
 
-const StageDetails = ({ children, title, runner, date, runnerAlign }: Props) => {
+const StageDetails = ({
+  children,
+  title,
+  runner,
+  date,
+  runnerAlign,
+}: Props) => {
   return (
     <div className="bg-white-primary rounded-xl px-4 py-3 flex flex-col gap-4">
       <h6 className="font-bold text-text-card-title text-lg">{title}</h6>
@@ -32,7 +38,7 @@ const StageDetails = ({ children, title, runner, date, runnerAlign }: Props) => 
         </div>
 
         <div className="font-extrabold text-4xl">
-          {date === "--:--" ? date : formatTime(new Date(date))}
+          {date === "--:--" ? date : formatTime(dateWithTimezoneDiff(date))}
         </div>
       </div>
 

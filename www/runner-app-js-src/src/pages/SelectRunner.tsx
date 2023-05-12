@@ -14,7 +14,7 @@ const SelectRunner = ({ runners, selectRunner }: Props) => {
         <div
           key={runner.id}
           onClick={() => selectRunner(runner)}
-          className="cursor-pointer bg-pink w-full rounded-2xl p-2 text-center font-semibold text-white text-lg"
+          className="cursor-pointer bg-pink w-full rounded-3xl p-1.5 text-center font-semibold text-white text-lg"
         >
           {runner.firstName} {runner.lastName}
         </div>
@@ -23,7 +23,7 @@ const SelectRunner = ({ runners, selectRunner }: Props) => {
       {Array.from({ length: 14 - runners.length }).map((_, i) => (
         <div
           key={i}
-          className="bg-white-secondary w-full rounded-2xl p-2 text-center font-semibold text-white text-lg"
+          className="bg-white-secondary w-full rounded-3xl p-1.5 text-center font-semibold text-white text-lg"
         >
           &nbsp;
         </div>

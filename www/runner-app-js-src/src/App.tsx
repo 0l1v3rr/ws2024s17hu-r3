@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import SelectRunner from "./pages/SelectRunner";
 import Tracking from "./pages/Tracking";
 import Loading from "./pages/Loading";
+import { dateWithTimezoneDiff } from "./utils";
 
 axios.defaults.baseURL = "http://backend2.ub2023.hu/api/v1/";
 
@@ -28,8 +29,9 @@ const App = () => {
       .catch(() => setAccessCode(null));
   }, [params]);
 
-  if (accessCode === null) return <Loading text="Log in using your access code!" />;
-  if (!team) return <Loading />;
+  if (accessCode === null || !team) {
+    return <Loading text="Log in using your access code!" />;
+  }
 
   return (
     <div className="bg-white h-screen w-screen overflow-hidden flex flex-col gap-3">
@@ -37,12 +39,15 @@ const App = () => {
 
       <main className="w-full h-full flex flex-col gap-3 p-4">
         {selectedRunner === null ? (
-          <SelectRunner runners={team.runners} selectRunner={(r) => setSelectedRunner(r)} />
+          <SelectRunner
+            runners={team.runners}
+            selectRunner={(r) => setSelectedRunner(r)}
+          />
         ) : (
           <Tracking
             runner={selectedRunner}
             accessCode={accessCode}
-            plannedStartingTime={new Date(team.plannedStartingTime)}
+            plannedStartingTime={dateWithTimezoneDiff(team.plannedStartingTime)}
           />
         )}
       </main>
